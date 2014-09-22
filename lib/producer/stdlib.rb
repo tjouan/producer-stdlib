@@ -2,11 +2,11 @@ module Producer
   module STDLib
     class << self
       def define_macro(name, &block)
-        ::Producer::Core::Recipe::DSL.define_macro(name, block)
+        ::Producer::Core::Recipe.define_macro(name, block)
       end
 
       def define_test(name, &block)
-        ::Producer::Core::Condition::DSL.define_test(name, block)
+        ::Producer::Core::Condition.define_test(name, block)
       end
     end
 
