@@ -15,8 +15,7 @@ module Producer
       STDLib.define_macro :ssh_copy_id do |path = SSH_AUTHORIZED_KEYS_PATH|
         condition { no_file? path }
 
-        # FIXME: remove this hack, should have proper keyword or another way
-        if !!condition
+        if condition_met?
           agent = Net::SSH::Authentication::Agent.connect
           choices = agent.identities.map { |e| [e, e.comment] }
           key = ask 'Which key do you want to copy?', choices
