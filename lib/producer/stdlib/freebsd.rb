@@ -10,14 +10,24 @@ module Producer
       MAKE_CONF_PATH      = '/etc/make.conf'.freeze
 
 
-      STDLib.define_test(:rc_enabled?) do |service|
+      STDLib.compose_macro :loader_conf, :file_write_once, LOADER_CONF_PATH
+
+      STDLib.compose_macro :rc_conf, :file_write_once, RC_CONF_PATH
+
+      STDLib.compose_macro :sysctl_conf, :file_write_once, SYSCTL_CONF_PATH
+
+      STDLib.compose_macro :periodic_conf, :file_write_once, PERIODIC_CONF_PATH
+
+      STDLib.compose_macro :make_conf, :file_write_once, MAKE_CONF_PATH
+
+      STDLib.define_test :rc_enabled? do |service|
         sh "service #{service} enabled > /dev/null"
       end
 
       STDLib.define_macro :rc_enable do |service|
         condition { no_rc_enabled? service }
 
-        file_append RC_CONF_PATH, %{\n#{service}_enable=\"YES\"\n}
+        file_append RC_CONF_PATH, %{\n#{service}_enable="YES"\n}
         sh "service #{service} start"
       end
 
@@ -27,41 +37,6 @@ module Producer
         condition { no_file_contains RC_CONF_PATH, rc_conf_value }
 
         file_replace_content RC_CONF_PATH, /^hostname=.+$/, rc_conf_value
-      end
-
-      # FIXME: refactor with file_add macro?
-      STDLib.define_macro :loader_conf do |conf|
-        condition { no_file_contains LOADER_CONF_PATH, conf }
-
-        file_append LOADER_CONF_PATH, "\n%s" % conf
-      end
-
-      # FIXME: refactor with file_add macro?
-      STDLib.define_macro :rc_conf do |conf|
-        condition { no_file_contains RC_CONF_PATH, conf }
-
-        file_append RC_CONF_PATH, "\n%s" % conf
-      end
-
-      # FIXME: refactor with file_add macro?
-      STDLib.define_macro :sysctl_conf do |conf|
-        condition { no_file_contains SYSCTL_CONF_PATH, conf }
-
-        file_append SYSCTL_CONF_PATH, "\n%s" % conf
-      end
-
-      # FIXME: refactor with file_add macro?
-      STDLib.define_macro :periodic_conf do |conf|
-        condition { no_file_contains PERIODIC_CONF_PATH, conf }
-
-        file_append PERIODIC_CONF_PATH, "\n%s" % conf
-      end
-
-      # FIXME: refactor with file_add macro?
-      STDLib.define_macro :ports_config do |config|
-        condition { no_file_contains MAKE_CONF_PATH, config }
-
-        file_write MAKE_CONF_PATH, config
       end
 
       STDLib.define_macro :chsh do |shell|

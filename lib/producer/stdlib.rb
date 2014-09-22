@@ -5,6 +5,10 @@ module Producer
         ::Producer::Core::Recipe.define_macro(name, block)
       end
 
+      def compose_macro(*args)
+        ::Producer::Core::Recipe.compose_macro(*args)
+      end
+
       def define_test(name, &block)
         ::Producer::Core::Condition.define_test(name, block)
       end
