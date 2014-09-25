@@ -15,10 +15,6 @@ module Producer
         file_append path, content
       end
 
-      STDLib.define_macro :file_write do |path, content|
-        file_write path, content
-      end
-
       STDLib.define_macro :file_write_once do |path, content|
         condition { no_file_eq path, content }
 
