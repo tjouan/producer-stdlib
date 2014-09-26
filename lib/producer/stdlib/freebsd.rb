@@ -20,8 +20,18 @@ module Producer
 
       STDLib.compose_macro :make_conf, :file_write_once, MAKE_CONF_PATH
 
+      STDLib.define_test :rc_conf? do |key, value|
+        file_contains '/etc/rc.conf', "#{key}=#{value}\n"
+      end
+
       STDLib.define_test :rc_enabled? do |service|
         sh "service #{service} enabled > /dev/null"
+      end
+
+      STDLib.define_macro :rc_conf_update do |key, value|
+        condition { no_rc_conf? key, value }
+
+        file_replace_content RC_CONF_PATH, /^#{key}=.+$/, "#{key}=#{value}"
       end
 
       STDLib.define_macro :rc_enable do |service|
@@ -31,13 +41,7 @@ module Producer
         sh "service #{service} start"
       end
 
-      STDLib.define_macro :hostname do |hostname|
-        rc_conf_value = "hostname=#{hostname}"
-
-        condition { no_file_contains RC_CONF_PATH, rc_conf_value }
-
-        file_replace_content RC_CONF_PATH, /^hostname=.+$/, rc_conf_value
-      end
+      STDLib.compose_macro :hostname, :rc_conf_update, 'hostname'
 
       STDLib.define_macro :chsh do |shell|
         condition { no_env? :shell, shell }
