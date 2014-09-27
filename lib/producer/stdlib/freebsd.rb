@@ -34,6 +34,19 @@ module Producer
         file_replace_content RC_CONF_PATH, /^#{key}=.+$/, "#{key}=#{value}"
       end
 
+      # FIXME: should update existing values
+      STDLib.define_macro :rc_conf_add do |attributes|
+        attributes.each do |k, v|
+          value = case v
+          when true   then '"YES"'
+          when false  then '"NO"'
+          else '"%s"' % v
+          end
+
+          file_append_once RC_CONF_PATH, "#{k}=#{value}\n"
+        end
+      end
+
       STDLib.define_macro :rc_enable do |service|
         condition { no_rc_enabled? service }
 
