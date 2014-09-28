@@ -57,7 +57,7 @@ module Producer
       STDLib.define_macro :rc_disable do |service|
         condition { rc_enabled? service }
 
-        rc_conf_update service, '"NO"'
+        rc_conf_update "#{service}_enable", '"NO"'
       end
 
       STDLib.compose_macro :hostname, :rc_conf_update, 'hostname'
