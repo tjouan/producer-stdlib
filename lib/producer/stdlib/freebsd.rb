@@ -111,14 +111,14 @@ module Producer
         condition { no_sh 'pkg -N' }
 
         # FIXME: must not disable signature
-        sh "PACKAGESITE=#{repo_uri} SIGNATURE_TYPE=NONE ASSUME_ALWAYS_YES=YES pkg bootstrap"
-        sh "PACKAGESITE=#{repo_uri} pkg update"
+        sh "env PACKAGESITE=#{repo_uri} SIGNATURE_TYPE=NONE ASSUME_ALWAYS_YES=YES pkg bootstrap"
+        sh "env PACKAGESITE=#{repo_uri} pkg update"
       end
 
       STDLib.define_macro :pkg_install do |pkg|
         condition { no_pkg? pkg }
 
-        sh 'ASSUME_ALWAYS_YES=YES pkg install %s' % pkg
+        sh 'env ASSUME_ALWAYS_YES=YES pkg install %s' % pkg
       end
     end
   end
