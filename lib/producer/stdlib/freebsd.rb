@@ -54,6 +54,12 @@ module Producer
         sh "service #{service} start"
       end
 
+      STDLib.define_macro :rc_disable do |service|
+        condition { rc_enabled? service }
+
+        rc_conf_update service, '"NO"'
+      end
+
       STDLib.compose_macro :hostname, :rc_conf_update, 'hostname'
 
       STDLib.define_macro :chsh do |shell|
