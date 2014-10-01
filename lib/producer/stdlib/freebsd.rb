@@ -17,7 +17,10 @@ module Producer
 
       STDLib.compose_macro :sysctl_conf, :file_write_once, SYSCTL_CONF_PATH
 
-      STDLib.compose_macro :periodic_conf, :file_write_once, PERIODIC_CONF_PATH
+      STDLib.compose_macro :periodic_conf,
+        :file_write_once, PERIODIC_CONF_PATH
+      STDLib.compose_macro :periodic_conf_append,
+        :file_append_once, PERIODIC_CONF_PATH
 
       STDLib.compose_macro :make_conf, :file_write_once, MAKE_CONF_PATH
 
