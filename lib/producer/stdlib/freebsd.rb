@@ -64,6 +64,16 @@ module Producer
         rc_conf_update "#{service}_enable", '"NO"'
       end
 
+      STDLib.define_macro :rc_send do |command, service|
+        sh "service #{service} #{command}"
+      end
+
+      STDLib.compose_macro :rc_status,  :rc_send, 'status'
+      STDLib.compose_macro :rc_reload,  :rc_send, 'reload'
+      STDLib.compose_macro :rc_restart, :rc_send, 'restart'
+      STDLib.compose_macro :rc_start,   :rc_send, 'start'
+      STDLib.compose_macro :rc_stop,    :rc_send, 'stop'
+
       STDLib.compose_macro :hostname, :rc_conf_update, 'hostname'
 
       STDLib.define_macro :chsh do |shell|
