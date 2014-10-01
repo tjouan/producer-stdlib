@@ -13,6 +13,7 @@ module Producer
       STDLib.compose_macro :loader_conf, :file_write_once, LOADER_CONF_PATH
 
       STDLib.compose_macro :rc_conf, :file_write_once, RC_CONF_PATH
+      STDLib.compose_macro :rc_conf_append, :file_append_once, RC_CONF_PATH
 
       STDLib.compose_macro :sysctl_conf, :file_write_once, SYSCTL_CONF_PATH
 
