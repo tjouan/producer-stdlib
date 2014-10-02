@@ -138,7 +138,7 @@ module Producer
       STDLib.define_macro :pkg_install do |pkg|
         condition { no_pkg? pkg }
 
-        sh 'env ASSUME_ALWAYS_YES=YES pkg install %s' % pkg
+        sh 'pkg install -y %s' % pkg
       end
     end
   end
