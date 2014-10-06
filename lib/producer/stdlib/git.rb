@@ -5,10 +5,12 @@ module Producer
         dir? "#{path}/.git"
       end
 
-      STDLib.define_macro :git_clone do |repository, destination|
+      STDLib.define_macro :git_clone do |repository, destination, branch: nil|
+        branch = branch ? '--branch %s' % branch : ''
+
         condition { no_git? destination }
 
-        sh "git clone --depth 1 #{repository} #{destination}"
+        sh "git clone #{branch} --depth 1 #{repository} #{destination}"
       end
 
       STDLib.define_macro :git_update do |path|
