@@ -9,9 +9,7 @@ module Producer
 
 
       STDLib.define_macro :ssh_dir do
-        condition { no_dir? '.ssh' }
-
-        mkdir '.ssh', 0700
+        ensure_dir '.ssh', mode: 0700
       end
 
       STDLib.define_macro :ssh_authorize do |key_pattern, user: nil|
@@ -33,7 +31,7 @@ module Producer
           ].join ' '
 
           ensure_dir path.dirname, 0700
-          file_write_once path, "#{line}\n", 0600
+          file_write_once path, "#{line}\n", mode: 0600
           sh 'chown -R %s %s' % [user, path.dirname] if user
         end
       end
@@ -51,7 +49,7 @@ module Producer
             ::Base64.encode64(key.to_blob).gsub("\n", '')
           ].join ' '
 
-          file_write path, "#{line}\n", 0600
+          file_write path, "#{line}\n", mode: 0600
         end
       end
     end
