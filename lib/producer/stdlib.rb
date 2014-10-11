@@ -20,5 +20,6 @@ module Producer
     require 'producer/stdlib/git'
     require 'producer/stdlib/ssh'
     require 'producer/stdlib/version'
+    require 'producer/stdlib/yaml'
   end
 end
