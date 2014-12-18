@@ -15,6 +15,7 @@ module Producer
     end
 
     require 'producer/stdlib/fs'
+    require 'producer/stdlib/debian'
     require 'producer/stdlib/freebsd'
     require 'producer/stdlib/freebsd/ports'
     require 'producer/stdlib/git'
