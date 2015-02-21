@@ -30,7 +30,7 @@ module Producer
             ::Base64.encode64(key.to_blob).gsub("\n", '')
           ].join ' '
 
-          ensure_dir path.dirname, 0700
+          ensure_dir path.dirname, mode: 0700
           file_write_once path, "#{line}\n", mode: 0600
           sh 'chown -R %s %s' % [user, path.dirname] if user
         end
