@@ -1,3 +1,5 @@
+require 'producer/core'
+
 module Producer
   module STDLib
     class << self
