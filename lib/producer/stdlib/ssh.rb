@@ -6,6 +6,7 @@ module Producer
       SSH_AUTHORIZED_KEYS_PATH  = '.ssh/authorized_keys'.freeze
       SSH_AUTHORIZED_NO_KEY_FMT =
         '"ssh_authorize macro cannot find key matching `%s\''
+      SSH_KEY_DEFAULT_PATH      = '.ssh/id_rsa'
 
 
       STDLib.define_macro :ssh_dir do
@@ -51,6 +52,12 @@ module Producer
 
           file_write path, "#{line}\n", mode: 0600
         end
+      end
+
+      STDLib.define_macro :ssh_keygen do |path = SSH_KEY_DEFAULT_PATH|
+        condition { no_file? path }
+
+        sh "ssh-keygen -f #{path} -N ''"
       end
     end
   end
