@@ -11,8 +11,9 @@ module Producer
         ::Producer::Core::Recipe.compose_macro(*args)
       end
 
-      def define_test(name, &block)
-        ::Producer::Core::Condition.define_test(name, block)
+      def define_test(*args, &block)
+        args << block if block
+        ::Producer::Core::Condition.define_test(*args)
       end
     end
 
