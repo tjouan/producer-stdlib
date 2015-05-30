@@ -7,7 +7,7 @@ module Producer
       STDLib.define_test :json_eq, JSONEq
 
       STDLib.define_macro :json_write do |path, data|
-        file_write path, ::JSON.generate(data)
+        file_write path, ::JSON.pretty_generate(data)
       end
 
       STDLib.define_macro :json_write_once do |path, data|
