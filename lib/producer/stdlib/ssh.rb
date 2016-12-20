@@ -14,7 +14,7 @@ module Producer
       end
 
       STDLib.define_macro :ssh_authorize do |key_pattern, user: nil|
-        path_base = user ? '/home/%s' % user : nil
+        path_base = user ? '/home/%s' % user : ''
         path      = Pathname.new(path_base) + SSH_AUTHORIZED_KEYS_PATH
 
         condition { no_file? path }
